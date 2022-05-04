@@ -15,6 +15,7 @@ export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
   maxDate: Date;
   validationErrors: string[] = [];
+  fb: any;
 
   constructor(private accountService: AccountService, private router: Router, private toastr: ToastrService) { }
 
