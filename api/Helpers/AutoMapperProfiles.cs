@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using api.DTOs;
 using api.Entities;
 using api.Extensions;
+using API.DTOs;
 using AutoMapper;
 
 namespace api.Helpers
@@ -13,18 +14,18 @@ namespace api.Helpers
     {
         public AutoMapperProfiles()
         {
-             CreateMap<AppUser, MemberDto>()
-                .ForMember(dest => dest.PhotoUrl, opt => opt.MapFrom(src => 
+            CreateMap<AppUser, MemberDto>()
+                .ForMember(dest => dest.PhotoUrl, opt => opt.MapFrom(src =>
                     src.Photos.FirstOrDefault(x => x.IsMain).Url))
                 .ForMember(dest => dest.Age, opt => opt.MapFrom(src => src.DateOfBirth.CalculateAge()));
             CreateMap<Photo, PhotoDto>();
-            // CreateMap<MemberUpdateDto, AppUser>();
+            CreateMap<MemberUpdateDto, AppUser>();
             // CreateMap<RegisterDto, AppUser>();
             // CreateMap<Message, MessageDto>()
-                // .ForMember(dest => dest.SenderPhotoUrl, opt => opt.MapFrom(src => 
-                //     src.Sender.Photos.FirstOrDefault(x => x.IsMain).Url))
-                // .ForMember(dest => dest.RecipientPhotoUrl, opt => opt.MapFrom(src => 
-                //     src.Recipient.Photos.FirstOrDefault(x => x.IsMain).Url));
+            // .ForMember(dest => dest.SenderPhotoUrl, opt => opt.MapFrom(src => 
+            //     src.Sender.Photos.FirstOrDefault(x => x.IsMain).Url))
+            // .ForMember(dest => dest.RecipientPhotoUrl, opt => opt.MapFrom(src => 
+            //     src.Recipient.Photos.FirstOrDefault(x => x.IsMain).Url));
             // CreateMap<MessageDto, Message>();
         }
     }

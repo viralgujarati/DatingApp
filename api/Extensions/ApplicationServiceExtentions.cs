@@ -6,6 +6,8 @@ using api.Data;
 using api.Helpers;
 using api.Interfaces;
 using api.Services;
+using API.Interfaces;
+using API.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace api.Extensions
@@ -14,8 +16,11 @@ namespace api.Extensions
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
         {
+            services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
             services.AddScoped<iTokenService, TokenService>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IPhotoService, PhotoService>();
+
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
             services.AddDbContext<DataContext>(options =>
             {

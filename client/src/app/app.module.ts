@@ -20,6 +20,7 @@ import { TestErrorsComponent } from './errors/test-errors/test-errors.component'
 import { MemberCardComponent } from './members/member-card/member-card.component';
 import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 import { ErrorInterceptor } from './_interceptors/error.interceptor';
+import { MemberEditComponent } from './members/member-edit/member-edit.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { ErrorInterceptor } from './_interceptors/error.interceptor';
     RegisterComponent,
     MemberListComponent,
     MemberDetailComponent,
+    MemberEditComponent,
     ListsComponent,
     MessagesComponent,
     TestErrorsComponent,

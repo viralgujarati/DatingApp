@@ -9,7 +9,7 @@ namespace api.DTOs
 {
     public class MemberDto
     {
-         public int Id { get; set; }
+        public int Id { get; set; }
         public string? Username { get; set; }     
         public string PhotoUrl { get; set; }
  
