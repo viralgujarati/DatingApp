@@ -8,7 +8,6 @@ import { MembersService } from 'src/app/_services/members.service';
   styleUrls: ['./member-list.component.css']
 })
 export class MemberListComponent implements OnInit {
-
   members: Member[];
   constructor(private memberService : MembersService) { }
 
@@ -22,5 +21,4 @@ export class MemberListComponent implements OnInit {
       this.members = members;
     })
   }
-
 }

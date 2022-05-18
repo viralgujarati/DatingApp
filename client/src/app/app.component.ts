@@ -18,13 +18,17 @@ export class AppComponent implements OnInit {
 
   ngOnInit(){
     this.getUsers();
-    this.setCurrentuser();
+    this.setCurrentUser();
 
   }
 
-  setCurrentuser(){
-    const user : User = JSON.parse(localStorage.getItem('user'));
-    this.accountService.setCurrentUser(user);
+  setCurrentUser() {
+    const user: User = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+      this.accountService.setCurrentUser(user);
+      // this.presence.createHubConnection(user);
+    }
+
   }
 
   getUsers() {

@@ -8,6 +8,8 @@ import { User } from 'src/app/models/user';
 import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from '@kolkov/ngx-gallery';
 import { TabsetComponent } from 'ngx-tabset/src/ngx-tabset';
+import { MembersService } from 'src/app/_services/members.service';
+
 
 
 @Component({
@@ -15,7 +17,7 @@ import { TabsetComponent } from 'ngx-tabset/src/ngx-tabset';
   templateUrl: './member-detail.component.html',
   styleUrls: ['./member-detail.component.css']
 })
-export class MemberDetailComponent implements OnInit, OnDestroy {
+export class MemberDetailComponent implements OnInit {
   @ViewChild('memberTabs', {static: true}) memberTabs: TabsetComponent;
   member: Member;
   galleryOptions: NgxGalleryOptions[];
@@ -25,7 +27,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   user: User;
 
   constructor(public presence: PresenceService, private route: ActivatedRoute, 
-     private accountService: AccountService,
+     private accountService: AccountService,private memberService: MembersService, 
     private router: Router) { 
       this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
       this.router.routeReuseStrategy.shouldReuseRoute = () => false;
@@ -35,6 +37,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.route.data.subscribe(data => {
       this.member = data.member;
+      this.loadMember();
     })
 
     this.route.queryParams.subscribe(params => {
@@ -65,7 +68,12 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     }
     return imageUrls;
   }
-
+  
+  loadMember() {
+    this.memberService.getMember(this.route.snapshot.paramMap.get('username')).subscribe(member => {
+      this.member = member;
+    })
+  }
   // loadMessages() {
   //   this.messageService.getMessageThread(this.member.username).subscribe(messages => {
   //     this.messages = messages;
@@ -88,8 +96,6 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   // ngOnDestroy(): void {
   //   this.messageService.stopHubConnection();
   // }
-  ngOnDestroy(): void {
-    throw new Error('Method not implemented.');
-  }
+
 
 }

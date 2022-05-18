@@ -20,6 +20,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace API
 {
@@ -39,7 +41,12 @@ namespace API
         {
             //Extensions
             services.AddApplicationServices(_config);
-            services.AddControllers();
+            services.AddControllers()
+            .AddNewtonsoftJson(o => 
+            {
+                o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                o.SerializerSettings.ContractResolver = new LowercaseContractResolver();
+            });
             services.AddCors();
             //Extensions Idenetity
             services.AddIdentityServices(_config);
@@ -66,6 +73,14 @@ namespace API
             {
                 endpoints.MapControllers();
             });
+        }
+    }
+
+    public class LowercaseContractResolver : DefaultContractResolver
+    {
+        protected override string ResolvePropertyName(string propertyName)
+        {
+            return propertyName.ToLower();
         }
     }
 }
