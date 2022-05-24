@@ -15,44 +15,42 @@ export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
   maxDate: Date;
   validationErrors: string[] = [];
-  fb: any;
 
-  constructor(private accountService: AccountService, private router: Router, private toastr: ToastrService) { }
+  constructor(private accountService: AccountService, private toastr: ToastrService, 
+    private fb: FormBuilder, private router: Router) { }
 
   ngOnInit(): void {
-    // this.intitializeForm();
+    this.intitializeForm();
     this.maxDate = new Date();
     this.maxDate.setFullYear(this.maxDate.getFullYear() -18);
   }
 
-  // intitializeForm() {
-  //   this.registerForm = this.fb.group({
-  //     gender: ['male'],
-  //     username: ['', Validators.required],
-  //     knownAs: ['', Validators.required],
-  //     dateOfBirth: ['', Validators.required],
-  //     city: ['', Validators.required],
-  //     country: ['', Validators.required],
-  //     password: ['', [Validators.required, 
-  //       Validators.minLength(4), Validators.maxLength(8)]],
-  //     confirmPassword: ['', [Validators.required, this.matchValues('password')]]
-  //   })
-  // }
+  intitializeForm() {
+    this.registerForm = this.fb.group({
+      gender: ['female'],
+      username: ['', Validators.required],
+      knownAs: ['', Validators.required],
+      dateOfBirth: ['', Validators.required],
+      city: ['', Validators.required],
+      country: ['', Validators.required],
+      password: ['', [Validators.required, 
+        Validators.minLength(4), Validators.maxLength(8)]],
+      confirmPassword: ['', [Validators.required, this.matchValues('password')]]
+    })
+  }
 
-  // matchValues(matchTo: string): ValidatorFn {
-  //   return (control: AbstractControl) => {
-  //     return control?.value === control?.parent?.controls[matchTo].value 
-  //       ? null : {isMatching: true}
-  //   }
-  // }                                                                      
+  matchValues(matchTo: string): ValidatorFn {
+    return (control: AbstractControl) => {
+      return control?.value === control?.parent?.controls[matchTo].value 
+        ? null : {isMatching: true}
+    }
+  }
 
-  register() {                                                                                                                                              
-    this.accountService.register(this.registerForm.value).subscribe(response => {                                                                      
-      this.router.navigateByUrl('/members');                                                                      
+  register() {
+    this.accountService.register(this.registerForm.value).subscribe(response => {
+      this.router.navigateByUrl('/members');
     }, error => {
       this.validationErrors = error;
-      this.toastr.error(error.error);
-
     })
   }
 
@@ -60,4 +58,4 @@ export class RegisterComponent implements OnInit {
     this.cancelRegister.emit(false);
   }
 
-} 
+}

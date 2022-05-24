@@ -23,6 +23,15 @@ export class MembersService {
   getMember(username: string) {
     return this.http.get<Member>(this.baseUrl + 'users/' + username)
   }
+  
+  updateMember(member: Member) {
+    return this.http.put(this.baseUrl + 'users', member).pipe(
+      map(() => {
+        const index = this.members.indexOf(member);
+        this.members[index] = member;
+      })
+    )
+  }
 
   setMainPhoto(photoId: number) {
     return this.http.put(this.baseUrl + 'users/set-main-photo/' + photoId, {});
@@ -35,12 +44,5 @@ export class MembersService {
   addLike(username: string) {
     return this.http.post(this.baseUrl + 'likes/' + username, {})
   }
-  updateMember(member: Member) {
-    return this.http.put(this.baseUrl + 'users', member).pipe(
-      map(() => {
-        const index = this.members.indexOf(member);
-        this.members[index] = member;
-      })
-    )
-  }
+
 }
